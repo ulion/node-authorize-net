@@ -1,22 +1,7 @@
 var conf = require('../config.js');
 var assert = require('assert');
 var AuthorizeGateway = require('../index.js');
-
-var assertNumber = function (value) {
-  return assert.equal(typeof value, 'number', 'expected ' + JSON.stringify(value) + ' to be a number.');
-};
-
-var assertString = function (value) {
-  return assert.equal(typeof value, 'string', 'expected ' + JSON.stringify(value) + ' to be a string.');
-};
-
-var assertDate = function (value) {
-  return assert.ok(value instanceof Date, 'expected ' + JSON.stringify(value) + ' to be a Date.');
-};
-
-var assertProperty = function (object, propertyName) {
-  return assert.ok(propertyName in object, 'expected ' + propertyName + ' of ' + JSON.stringify(object) + ' to be defined.');
-};
+var utils = require('./fixtures/utils.js');
 
 describe('getSettledBatchList', function () {
   var service;
@@ -41,12 +26,12 @@ describe('getSettledBatchList', function () {
         assert.equal(Array.isArray(response), true);
 
         response.forEach(function (batch) {
-          assertString(batch.batchId);
-          assertDate(batch.settlementDate);
+          utils.assertString(batch.batchId);
+          utils.assertDate(batch.settlementDate);
 
           NUMBER_FIELDS.forEach(function (fieldName) {
-            assertProperty(batch, fieldName);
-            assertNumber(batch[fieldName]);
+            utils.assertProperty(batch, fieldName);
+            utils.assertNumber(batch[fieldName]);
           });
         });
       });
